@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1361824711 source:c:\users\gcarnielli\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\main.c
+	"Xadrez.h"
+
+1362082750 c:\users\gcarnielli\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\xadrez.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+
+1361850085 source:c:\users\giulliano\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\main.c
+	"Xadrez.h"
+
+1362331101 c:\users\giulliano\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\xadrez.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+
+1362079001 source:c:\users\gcarnielli\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\jogo.c
+	"Xadrez.h"
+
+1362082411 source:c:\users\gcarnielli\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\xadrez.c
+	"Xadrez.h"
+
+1362079001 source:c:\users\giulliano\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\jogo.c
+	"Xadrez.h"
+
+1362332218 source:c:\users\giulliano\dropbox\academico\aulas\ed\praticas\proj_jogo_xadrez\xadrez.c
+	"Xadrez.h"
+
