@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "Xadrex.h"
 
 int main()
 {
-    printf("Hello world!\n");
+    iniciarJogo();
+    PrintTabuleiro(jogoTabuleiro);
     return 0;
 }
