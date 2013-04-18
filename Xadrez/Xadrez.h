@@ -27,6 +27,7 @@ void iniciarJogo(); // Inicia um novo jogo
 void testePrintTabuleiro(Tabuleiro jogo);
 void recebeJogada();
 int validaJogada(char linhaInicial[2], char colunaInicial[2], char linhaDestino[2], char colunaDestino[2] );
+int transformaColuna( char coluna[1] );
 //void limparTabuleiro(); // Limpa o tabuleiro, zerando a posicao das pecas
 //void lerJogada(); // Recebe a jogada do usuario
 //void verificarJogada(); // Valida a jogada recebida do usuario

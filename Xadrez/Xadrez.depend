@@ -4,5 +4,11 @@
 	<stdlib.h>
 	"Xadrez.h"
 
-1366290860 c:\git\xadrez_project\xadrez\xadrez.h
+1366301372 c:\git\xadrez_project\xadrez\xadrez.h
+
+1366302150 source:c:\git\xadrez_project\xadrez\xadrez.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Xadrez.h"
 

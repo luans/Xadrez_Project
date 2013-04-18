@@ -140,3 +140,24 @@ void recebeJogada() {
 int validaJogada(char linhaInicial[2], char colunaInicial[2], char linhaDestino[2], char colunaDestino[2] ) {
 	return 1;
 }
+
+/*
+ *
+ *	Funcao transformaColuna
+ *	Converte a coluna, recebida como letras, para o numero correspondente
+ *	Data de criacao: 18/04/13
+ *	Luan Lopes
+ *
+ */
+int transformaColuna( char coluna[1] ) {
+    char *valoresColunas[8] = { "a", "b", "c", "d", "e", "f", "g", "h" };
+    int flagNumeroColuna;
+    int i = 0;
+
+    for ( i = 0; i < 8; i ++ ) {
+        if ( strcmp( coluna, valoresColunas[i] == 0 ) ) { // É igual
+            flagNumeroColuna = i;
+        }
+    }
+    return flagNumeroColuna;
+}
