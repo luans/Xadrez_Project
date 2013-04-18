@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Xadrex.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Xadrex.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

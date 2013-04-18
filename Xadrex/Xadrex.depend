@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1366288965 source:c:\git\projeto xadrex\xadrex_project\xadrex\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrex.h"
+
+1366289744 c:\git\projeto xadrex\xadrex_project\xadrex\xadrex.h
+

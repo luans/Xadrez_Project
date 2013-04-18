@@ -104,10 +104,8 @@ void recebeJogada() {
     char playerJogadaDestino[3]; // Vetor para armazenar o destino da peca
     int flagValidaJogada; // Flag para armazenar se a jogada foi validada!
     printf("Qual a peca que voce deseja mover? Por exemplo: 7a");
-    fflush();
     gets(playerJogadaInicial); // Recebe e armazena no vetor, nao esqueca do /0!
     printf("Qual o destino dessa peca? Por exemplo: 8a");
-    fflush();
     gets(playerJogadaDestino); // Recebe e armazena no vetor
     // Passa os parametros para o valida jogada
     flagValidaJogada = validaJogada(playerJogadaInicial[0], playerJogadaInicial[1], playerJogadaDestino[0], playerJogadaDestino[1]);
