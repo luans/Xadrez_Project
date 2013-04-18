@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1366291073 source:c:\git\xadrez_project\xadrez\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrez.h"
+
+1366290860 c:\git\xadrez_project\xadrez\xadrez.h
+
