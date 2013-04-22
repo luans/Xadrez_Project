@@ -1,13 +1,35 @@
-/*
- *
- * Arquivo com as funcoes utilizadas no Xadrex
- *
- *
-*/
+/* ----------------------------------------------------
+
+    Dev-Group
+    Projeto Xadrez
+
+    ----------------------------------------------------
+
+    Estrutura de Dados
+
+    Engenharia da Computacao, 3o semestre
+
+    ----------------------------------------------------
+
+    Grupo:  Luan Lopes da Silva
+            Guilherme Francisco Nogueira
+            Joao Evaristo
+            Guilherme Dakuzaku
+
+    Professor: Giulliano Paes Carnielli
+
+    ----------------------------------------------------
+
+
+    Arquivo Xadrez.c
+
+
+---------------------------------------------------- */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "Xadrez.h"
 
 char *nomeTodasPecas[16] = { "Torre Esquerda", "Cavalo Esquerdo", "Bispo Esquerdo", "Rainha", "Rei", "Bispo Direito", "Cavalo Direito", "Torre Direita", "Peao", "Peao", "Peao", "Peao", "Peao", "Peao", "Peao", "Peao" };
@@ -20,6 +42,7 @@ void iniciarJogo() {
 
     // Loop de inicializacao das pecas
     for ( i = 0; i < 16; i ++ ) {
+
         strcpy( jogoPecas[i].nomePeca, nomeTodasPecas[i] );
         strcpy( jogoPecas[i].caracPeca, tipoPecasBranca[i] );
         jogoPecas[i].corPeca = COR_BRANCA;
@@ -31,39 +54,30 @@ void iniciarJogo() {
 
     for ( flagcoordLINHA = 0; flagcoordLINHA < 8; flagcoordLINHA ++ ) {
         for ( flagcoordCOL = 0; flagcoordCOL < 8; flagcoordCOL ++ ) {
-             if (flagcoordLINHA < 2){
-                /**< Salva a peça na pos "x" e "y" e atribui a peça na posição no vetor jogopecas ex: linha 0 coluna 0 (0 * 8 = 0 + 0 = 0) linha 0 coluna 1 (0 * 8 = 0 + 1 = 1)*/
-                jogoTabuleiro.pecasCoordenadas[flagcoordLINHA][flagcoordCOL] = jogoPecas[flagcoordLINHA * 8 + flagcoordCOL];
+            if (flagcoordLINHA < 2){
+                jogoTabuleiro.pecasCoordenadas[flagcoordLINHA][flagcoordCOL] = &jogoPecas[flagcoordLINHA * 8 + flagcoordCOL];
             }
             if (flagcoordLINHA > 5 ){
-                jogoTabuleiro.pecasCoordenadas[flagcoordLINHA][flagcoordCOL] = jogoPecas[(flagcoordLINHA * 8 + flagcoordCOL) - 32];
+                jogoTabuleiro.pecasCoordenadas[flagcoordLINHA][flagcoordCOL] = &jogoPecas[(flagcoordLINHA * 8 + flagcoordCOL) - 32];
+            }
+            if (flagcoordLINHA >= 2 && flagcoordLINHA <= 5){
+                jogoTabuleiro.pecasCoordenadas[flagcoordLINHA][flagcoordCOL] = NULL;
             }
         }
     }
 
     printf("\nPecas brancas e pretas inicializadas com sucesso!");
     printf("\nPosicoes restauradas para padrao!\n");
+
+    printf("\nQual o nome do jogador 01?\n");
+    scanf( "%s", jogadoresSession[0].nomeJogador );
+    jogadoresSession[0].corJogador = COR_BRANCA;
+
+    printf("\nQual o nome do jogador 02?\n");
+    scanf( "%s", jogadoresSession[1].nomeJogador );
+    jogadoresSession[1].corJogador = COR_PRETA;
+    system("cls");
 }
-
-void new_Tabuleiro() {
-    int i, j;
-    char simbolo;
-
-    printf("\n\t|---|---|---|---|---|---|---|---|\n");
-
-    for (i = 0; i < 8; i++) {
-        printf("\t%d | ", (i + 1));
-        for (j = 0; j < 8; j++) {
-            //IMPRIMIR CARACTERE SEM ESPAÇO ANTES E 1 DEPOIS
-            printf(" | ");
-        }
-
-        printf("\n\t|---|---|---|---|---|---|---|---|\n");
-    }
-    printf(  "\t  A   B   C   D   E   F   G   H  \n");
-}
-
-
 
 void PrintTabuleiro(Tabuleiro jogo) {
     int coluna, linhatabul;
@@ -74,15 +88,12 @@ void PrintTabuleiro(Tabuleiro jogo) {
     for (linhatabul = 0; linhatabul < 8; linhatabul++) {
         printf("\t%d | ", (linhatabul + 1));
         for (coluna = 0; coluna < 8; coluna++) {
-            //IMPRIMIR CARACTERE SEM ESPAÇO ANTES E 1 DEPOIS
-            if (linhatabul < 2){
-                printf("%s | ", jogoTabuleiro.pecasCoordenadas[linhatabul][coluna].caracPeca);
-            }
-            if (linhatabul > 5 ){
-                printf("%s | ", jogoTabuleiro.pecasCoordenadas[linhatabul][coluna].caracPeca);
-            }
-            if (linhatabul >= 2 && linhatabul <= 5){
+
+            if ( jogoTabuleiro.pecasCoordenadas[linhatabul][coluna] == NULL ) {
                 printf("  | ");
+            }
+            else {
+                printf("%s | ", jogoTabuleiro.pecasCoordenadas[linhatabul][coluna]->caracPeca);
             }
         }
         printf("\n\t  |---|---|---|---|---|---|---|---|\n");
@@ -99,32 +110,50 @@ void PrintTabuleiro(Tabuleiro jogo) {
  *	Luan Lopes
  *
  */
-void recebeJogada() {
-    char playerJogadaInicial[3]; // Vetor para armazenar a peca que o jogador deseja mover
-    char playerJogadaDestino[3]; // Vetor para armazenar o destino da peca
+void recebeJogada(int turnoJogador) {
+    char playerJogadaInicial[4]; // Vetor para armazenar a peca que o jogador deseja mover
+    char playerJogadaDestino[4]; // Vetor para armazenar o destino da peca
     int flagValidaJogada; // Flag para armazenar se a jogada foi validada!
-    printf("Qual a peca que voce deseja mover? Por exemplo: 7a");
-    gets(playerJogadaInicial); // Recebe e armazena no vetor, nao esqueca do /0!
-    printf("Qual o destino dessa peca? Por exemplo: 8a");
-    gets(playerJogadaDestino); // Recebe e armazena no vetor
+
+    // Verificando qual e' o jogador ativo
+    if ( (turnoJogador % 2) == 0 ) {
+        turnoJogador=0;
+    }
+
+    else {
+        turnoJogador=1;
+    }
+
+    printf("\n%s, qual a peca que voce deseja mover? Por exemplo: 7a\n", jogadoresSession[turnoJogador].nomeJogador);
+    scanf("%s", playerJogadaInicial); // Recebe e armazena no vetor, nao esqueca do /0!
+    printf("\nQual o destino dessa peca? Por exemplo: 8a\n");
+    scanf("%s", playerJogadaDestino); // Recebe e armazena no vetor
+
     // Passa os parametros para o valida jogada
-    flagValidaJogada = validaJogada(playerJogadaInicial[0], playerJogadaInicial[1], playerJogadaDestino[0], playerJogadaDestino[1]);
+    flagValidaJogada = validaJogada( turnoJogador, ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
+
     // Tratando o retorno
     if ( flagValidaJogada == 0 ) {
-        // Caso a jogada nao eh permitida
-        system("cls");
-        printf("Jogada invalida!");
+        // Jogada nao permitida
+        // Retorna a jogada do jogador!
+        PrintTabuleiro(jogoTabuleiro);
+        recebeJogada(turnoJogador);
     }
 
     else if ( flagValidaJogada == 1 ) {
         // Caso a peca for movida corretamente
+        movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
+        PrintTabuleiro(jogoTabuleiro);
     }
 
     else if ( flagValidaJogada == 2 ) {
-        // Caso a peca tiver roubado alguma outra
+        movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
+        system("cls");
+        PrintTabuleiro(jogoTabuleiro);
+        printf("\nParabens %s, voce capturou o rei do outro jogador e venceu a partida!", jogadoresSession[turnoJogador].nomeJogador);
+        flagJogoAtivo = 0;
+        getch();
     }
-
-
 }
 
 /*
@@ -137,27 +166,71 @@ void recebeJogada() {
  *	Luan Lopes
  *
  */
-int validaJogada(char linhaInicial[2], char colunaInicial[2], char linhaDestino[2], char colunaDestino[2] ) {
-	return 1;
-}
+int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino) {
 
+    /** Jogadas inválidas **/
+    if ( linhaInicial > 8 || linhaDestino > 8 || colunaInicial > 8 || colunaDestino > 8 ) {
+        // Valor extrapola os limites do tabuleiro...
+        system("cls");
+        printf("\nOs valores extrapolam o limite do tabuleiro!\n");
+        return 0;
+    }
+
+    else if ( (linhaInicial == linhaDestino) && (colunaInicial == colunaDestino) ) {
+        // Os valores são os mesmo, nao deixa executar a jogada
+        system("cls");
+        printf("\nVoce nao pode mover uma peca para a mesma posicao!\n");
+        return 0;
+    }
+
+    else if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial]->corPeca != jogadoresSession[jogador].corJogador ) {
+        system("cls");
+        printf("\nVoce nao pode mover pecas do adversario!\n");
+        return 0;
+    }
+
+    else if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial] == NULL ) {
+        system("cls");
+        printf("\nNao existe peca na posicao informada!\n");
+        return 0;
+    }
+
+    // Se existe uma peca na posicao da matriz && essa peca eh da mesma cor!
+    else if ( jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino] != NULL ) {
+
+        if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial]->corPeca == jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino]->corPeca ) {
+            system("cls");
+            printf("\nEssa posicao ja esta ocupada por uma peca sua!\n");
+            return 0;
+        }
+
+        else if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial]->corPeca != jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino]->corPeca ) {
+
+            // Checagem para ver se o Rei nao foi capturado!
+            if ( strcmp( jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino]->caracPeca, "K") == 0 || strcmp( jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino]->caracPeca, "k" ) == 0 ) {
+                // O rei foi capturado!
+                return 2;
+            }
+
+            else {
+                // PECA CAPTURADA!
+                system("cls");
+                printf("\nPeca adversaria capturada!\n");
+                return 1;
+            }
+        }
+    }
+    return 1;
+}
 /*
  *
- *	Funcao transformaColuna
- *	Converte a coluna, recebida como letras, para o numero correspondente
- *	Data de criacao: 18/04/13
+ *	Funcao movePeca
+ *	Essa funcao vai ser utilizada para mover as pecas
+ *	Data de criacao: 21/04/13
  *	Luan Lopes
  *
  */
-int transformaColuna( char coluna[1] ) {
-    char *valoresColunas[8] = { "a", "b", "c", "d", "e", "f", "g", "h" };
-    int flagNumeroColuna;
-    int i = 0;
-
-    for ( i = 0; i < 8; i ++ ) {
-        if ( strcmp( coluna, valoresColunas[i] == 0 ) ) { // É igual
-            flagNumeroColuna = i;
-        }
-    }
-    return flagNumeroColuna;
+void movePeca(int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino) {
+    jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino] = jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial];
+    jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial] = NULL;
 }

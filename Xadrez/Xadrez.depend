@@ -12,3 +12,30 @@
 	<string.h>
 	"Xadrez.h"
 
+1366466531 source:c:\users\9142863821\desktop\xadrez_project-master\xadrez\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrez.h"
+
+1366468839 c:\users\9142863821\desktop\xadrez_project-master\xadrez\xadrez.h
+
+1366470764 source:c:\users\9142863821\desktop\xadrez_project-master\xadrez\xadrez.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Xadrez.h"
+
+1366572864 source:c:\documents and settings\luan\desktop\xadrez_luan\xadrez\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrez.h"
+
+1366572916 c:\documents and settings\luan\desktop\xadrez_luan\xadrez\xadrez.h
+
+1366572536 source:c:\documents and settings\luan\desktop\xadrez_luan\xadrez\xadrez.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"Xadrez.h"
+

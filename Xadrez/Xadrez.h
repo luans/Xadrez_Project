@@ -1,3 +1,30 @@
+/* ----------------------------------------------------
+
+    Dev-Group
+    Projeto Xadrez
+
+    ----------------------------------------------------
+
+    Estrutura de Dados
+
+    Engenharia da Computacao, 3o semestre
+
+    ----------------------------------------------------
+
+    Grupo:  Luan Lopes da Silva
+            Guilherme Francisco Nogueira
+            Joao Evaristo
+            Guilherme Dakuzaku
+
+    Professor: Giulliano Paes Carnielli
+
+    ----------------------------------------------------
+
+
+    Arquivo Xadrez.h
+
+
+---------------------------------------------------- */
 #ifndef XADREX_H_INCLUDED
 #define XADREX_H_INCLUDED
 
@@ -12,27 +39,26 @@ typedef struct pecaInfo {
     int corPeca;
     int posX;
     int posY;
-    //pecaInfo *ant;
 } Peca;
 
 typedef struct tabuleiroInfo {
-    Peca pecasCoordenadas[8][8]; // Tem as coordenadas do tabuleiro, da esquerda pra direita, de baixo pra cim,
+    Peca *pecasCoordenadas[8][8]; // Tem as coordenadas do tabuleiro, da esquerda pra direita, de baixo pra cima
     // pecasCoordenadas[LINHA][COLUNA]
 } Tabuleiro;
 
+typedef struct sessionInfo {
+    char nomeJogador[30];
+    int corJogador;
+} Session;
+
 Peca jogoPecas[TOTAL_PECAS];
 Tabuleiro jogoTabuleiro;
+Session jogadoresSession[2];
+int flagJogoAtivo; // Variavel para definir o fim do jogo
 
 void iniciarJogo(); // Inicia um novo jogo
-void testePrintTabuleiro(Tabuleiro jogo);
-void recebeJogada();
-int validaJogada(char linhaInicial[2], char colunaInicial[2], char linhaDestino[2], char colunaDestino[2] );
-int transformaColuna( char coluna[1] );
-//void limparTabuleiro(); // Limpa o tabuleiro, zerando a posicao das pecas
-//void lerJogada(); // Recebe a jogada do usuario
-//void verificarJogada(); // Valida a jogada recebida do usuario
-//void executaJogada();
-
-void new_Tabuleiro();
+void recebeJogada(int turnoJogador);
+int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino);
+void movePeca(int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino);
 
 #endif // XADREX_H_INCLUDED
