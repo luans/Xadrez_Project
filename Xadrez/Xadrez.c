@@ -114,15 +114,10 @@ void recebeJogada(int turnoJogador) {
     char playerJogadaInicial[4]; // Vetor para armazenar a peca que o jogador deseja mover
     char playerJogadaDestino[4]; // Vetor para armazenar o destino da peca
     int flagValidaJogada; // Flag para armazenar se a jogada foi validada!
+    int flagValidaPadroes; // Flag para armazenar se os padroes foram validados!
 
     // Verificando qual e' o jogador ativo
-    if ( (turnoJogador % 2) == 0 ) {
-        turnoJogador=0;
-    }
-
-    else {
-        turnoJogador=1;
-    }
+    turnoJogador = turnoJogador % 2;
 
     printf("\n%s, qual a peca que voce deseja mover? Por exemplo: 7a\n", jogadoresSession[turnoJogador].nomeJogador);
     scanf("%s", playerJogadaInicial); // Recebe e armazena no vetor, nao esqueca do /0!
@@ -140,19 +135,42 @@ void recebeJogada(int turnoJogador) {
         recebeJogada(turnoJogador);
     }
 
-    else if ( flagValidaJogada == 1 ) {
-        // Caso a peca for movida corretamente
-        movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
-        PrintTabuleiro(jogoTabuleiro);
-    }
+    else if ( flagValidaJogada >= 1 ) {
+        flagValidaPadroes = validaPadroes ( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97), jogoTabuleiro.pecasCoordenadas[((int)playerJogadaInicial[0]-48)-1][(tolower(playerJogadaInicial[1]) - 97)]->caracPeca );
+        //printf("Flagzinha Valida Padroes: %i", flagValidaPadroes );
 
-    else if ( flagValidaJogada == 2 ) {
-        movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
-        system("cls");
-        PrintTabuleiro(jogoTabuleiro);
-        printf("\nParabens %s, voce capturou o rei do outro jogador e venceu a partida!", jogadoresSession[turnoJogador].nomeJogador);
-        flagJogoAtivo = 0;
-        getch();
+        if ( flagValidaPadroes == 0 ) {
+            // Jogada invalida!
+            system("cls");
+            printf("Essa jogada eh invalida!\n");
+            PrintTabuleiro(jogoTabuleiro);
+            recebeJogada(turnoJogador);
+
+        }
+
+        else if ( flagValidaPadroes == 1 && flagValidaJogada == 1 ) {
+            // Foi uma jogada normal, na qual o movimento pode ser executado!
+            system("cls");
+            movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
+            PrintTabuleiro(jogoTabuleiro);
+        }
+
+        else if ( flagValidaPadroes == 1 && flagValidaJogada == 3 ) {
+            // Peca adversaria capturada!
+            movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
+            system("cls");
+            printf("\nPeca adversaria capturada!\n");
+            PrintTabuleiro(jogoTabuleiro);
+        }
+        else if ( flagValidaPadroes == 1 && flagValidaJogada == 2 ) {
+            // Cheque mate!
+            movePeca( ((int)playerJogadaInicial[0]-48)-1, (tolower(playerJogadaInicial[1]) - 97), ((int)playerJogadaDestino[0]-48)-1, (tolower(playerJogadaDestino[1]) - 97));
+            system("cls");
+            PrintTabuleiro(jogoTabuleiro);
+            printf("\nParabens %s, voce capturou o rei do outro jogador e venceu a partida!", jogadoresSession[turnoJogador].nomeJogador);
+            flagJogoAtivo = 0;
+            getch();
+        }
     }
 }
 
@@ -167,15 +185,12 @@ void recebeJogada(int turnoJogador) {
  *
  */
 int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino) {
-
-    /** Jogadas inválidas **/
-    if ( linhaInicial > 8 || linhaDestino > 8 || colunaInicial > 8 || colunaDestino > 8 ) {
+    if ( linhaInicial >= 8 || linhaDestino >= 8 || colunaInicial >= 8 || colunaDestino >= 8 ) {
         // Valor extrapola os limites do tabuleiro...
         system("cls");
         printf("\nOs valores extrapolam o limite do tabuleiro!\n");
         return 0;
     }
-
     else if ( (linhaInicial == linhaDestino) && (colunaInicial == colunaDestino) ) {
         // Os valores são os mesmo, nao deixa executar a jogada
         system("cls");
@@ -183,15 +198,15 @@ int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDest
         return 0;
     }
 
-    else if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial]->corPeca != jogadoresSession[jogador].corJogador ) {
-        system("cls");
-        printf("\nVoce nao pode mover pecas do adversario!\n");
-        return 0;
-    }
-
     else if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial] == NULL ) {
         system("cls");
         printf("\nNao existe peca na posicao informada!\n");
+        return 0;
+    }
+
+    else if ( jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial]->corPeca != jogadoresSession[jogador].corJogador ) {
+        system("cls");
+        printf("\nVoce nao pode mover pecas do adversario!\n");
         return 0;
     }
 
@@ -216,11 +231,12 @@ int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDest
                 // PECA CAPTURADA!
                 system("cls");
                 printf("\nPeca adversaria capturada!\n");
-                return 1;
+                return 3;
             }
         }
+    } else {
+        return 1;
     }
-    return 1;
 }
 /*
  *
@@ -233,4 +249,115 @@ int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDest
 void movePeca(int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino) {
     jogoTabuleiro.pecasCoordenadas[linhaDestino][colunaDestino] = jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial];
     jogoTabuleiro.pecasCoordenadas[linhaInicial][colunaInicial] = NULL;
+}
+
+int validaPadroes ( int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino, char tipoPeca[2] )
+{
+    int flagValidaPadroes; // 0 invalido 1 valido
+    int linhaVal = 0;
+    int colunaVal = 0;
+
+    linhaInicial = sqrt ( ( linhaInicial*linhaInicial));
+    colunaInicial = sqrt (( colunaInicial*colunaInicial ));
+    linhaDestino = sqrt (( linhaDestino*linhaDestino ));
+    colunaDestino = sqrt (( colunaDestino*colunaDestino ));
+
+    tolower(tipoPeca);
+
+    // Comparacoes!
+
+    // **********************************//
+    //      Comparacoes para a TORRE    //
+    // ********************************//
+    if ( strcmp(tipoPeca,"t") == 0 || strcmp(tipoPeca,"T") == 0) {
+        if ( ( linhaInicial - linhaDestino ) == 0 || ( colunaInicial - colunaDestino ) == 0 ) {
+            // Movimento válido!
+            // Checar se as linhas que passaram estão vazias! Só o cavalo pula as pecas!
+
+            int resultLinha = (linhaInicial-linhaDestino);
+            resultLinha = sqrt ( resultLinha*resultLinha );
+
+            //if ( resultLinha == 0 ) resultLinha = 1;
+
+            int resultColuna = (colunaInicial-colunaDestino);
+            resultColuna = sqrt ( resultColuna*resultColuna );
+
+            if ( resultColuna == 0 ) {
+                for (linhaVal = 0; linhaVal < resultLinha; linhaVal++) {
+                    if ( jogoTabuleiro.pecasCoordenadas[linhaVal][resultColuna] != NULL ) {
+                        printf("\nVoce nao pode pular pecas com a torre!\n");
+                        flagValidaPadroes = 0;
+                    } else {
+                        flagValidaPadroes = 1;
+                        break;
+                    }
+                }
+            }
+
+            else if ( resultLinha > 0 ) {
+                for ( colunaVal = 0; colunaVal < resultColuna; colunaVal++) {
+                    if ( jogoTabuleiro.pecasCoordenadas[resultLinha][colunaVal] != NULL ) {
+                        printf("\nVoce nao pode pular pecas com a torre!\n");
+                        flagValidaPadroes = 0;
+                    } else {
+                        flagValidaPadroes = 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    // **********************************//
+    //      Comparacoes para a Cavalo   //
+    // ********************************//
+    else if ( strcmp(tipoPeca,"c") == 0 || strcmp(tipoPeca,"C")  == 0) {
+        if  ( ( (linhaInicial - linhaDestino) == -2 || (linhaInicial - linhaDestino) == 2 && ((colunaInicial - colunaDestino) == 1 || ((colunaInicial - colunaDestino) == -1))) || ((linhaInicial - linhaDestino) == 1 || (linhaInicial - linhaDestino) == -1) && ((colunaInicial - colunaDestino) == 2 || (colunaInicial - colunaDestino) == -2 )) {
+            flagValidaPadroes = 1;
+        } else {
+            flagValidaPadroes = 0;
+        }
+    }
+
+    // **********************************//
+    //      Comparacoes para o Peao     //
+    // ********************************//
+    else if ( strcmp(tipoPeca, "p") == 0 || strcmp(tipoPeca, "P") == 0) {
+        flagValidaPadroes = 1;
+    }
+
+    // **********************************//
+    //      Comparacoes para o Bispo    //
+    // ********************************//
+    else if ( strcmp(tipoPeca,"b") == 0 || strcmp(tipoPeca,"B") == 0) {
+        if ( ( linhaInicial - linhaDestino ) == ( colunaInicial - colunaDestino ) ) {
+            // Valores vao ser sempre iguais! PORRA!
+            // Movimento válido!
+
+            int resultLinha = linhaInicial - linhaDestino;
+            int resultColuna = colunaInicial - colunaDestino;
+
+            // Lógica pro bispo! COMOFAS?
+            flagValidaPadroes = 1;
+        } else {
+           flagValidaPadroes = 0;
+        }
+    }
+    // **********************************//
+    //      Comparacoes para a Rainha   //
+    // ********************************//
+    else if ( strcmp(tipoPeca,"q") == 0 || strcmp(tipoPeca,"Q") == 0) {
+        flagValidaPadroes = 1;
+    }
+    // **********************************//
+    //      Comparacoes para o Rei      //
+    // ********************************//
+    else if ( strcmp(tipoPeca,"k") == 0 || strcmp(tipoPeca,"K") == 0) {
+        // Rei anda 1 casa apenas!
+        if ( ((linhaInicial - linhaDestino) <= 1) && ((colunaInicial - colunaDestino) <= 1)) {
+            flagValidaPadroes = 1;
+        } else {
+            flagValidaPadroes = 0;
+        }
+    }
+    return flagValidaPadroes;
 }

@@ -1,15 +1,16 @@
 # depslib dependency file v1.0
-1366291073 source:c:\git\xadrez_project\xadrez\main.c
+1366572866 source:c:\git\xadrez_project\xadrez\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Xadrez.h"
 
-1366301372 c:\git\xadrez_project\xadrez\xadrez.h
+1366832866 c:\git\xadrez_project\xadrez\xadrez.h
 
-1366302150 source:c:\git\xadrez_project\xadrez\xadrez.c
+1366851300 source:c:\git\xadrez_project\xadrez\xadrez.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<conio.h>
 	"Xadrez.h"
 
 1366466531 source:c:\users\9142863821\desktop\xadrez_project-master\xadrez\main.c

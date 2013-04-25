@@ -60,5 +60,6 @@ void iniciarJogo(); // Inicia um novo jogo
 void recebeJogada(int turnoJogador);
 int validaJogada(int jogador, int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino);
 void movePeca(int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino);
+int validaPadroes ( int linhaInicial, int colunaInicial, int linhaDestino, int colunaDestino, char tipoPeca[2] );
 
 #endif // XADREX_H_INCLUDED
