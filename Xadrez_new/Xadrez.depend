@@ -40,3 +40,17 @@
 	<conio.h>
 	"Xadrez.h"
 
+1370030663 source:c:\xadrez_project\xadrez_new\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrez.h"
+
+1370030276 c:\xadrez_project\xadrez_new\xadrez.h
+
+1370030447 source:c:\xadrez_project\xadrez_new\xadrez.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"Xadrez.h"
+
