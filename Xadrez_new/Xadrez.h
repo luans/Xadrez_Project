@@ -40,7 +40,7 @@ typedef struct tad_jogo {
 } Jogo;
 
 typedef struct tad_peca {
-    char NomePeca[10];
+    char NomePeca[128];
     char SimboloPeca[10];
     int Lado; // Indica se a peca é preta ou branca
     int CoordenadaLinha;
@@ -55,7 +55,7 @@ typedef struct tad_tabuleiro {
 
 Tabuleiro* CriarJogo(); // Retonar as memorias alocadas para uma estrutura Jogo
 void RecebeDadosUsuario(Tabuleiro* newgame); // Recebe os nomes dos jogadores
-void GerarObjetos( Tabuleiro* newgame, Peca* newpecas[32]);
+void GerarObjetos( Tabuleiro* newgame, Peca* newpecas[] );
 void DisplayTabuleiro(Tabuleiro* newgame);
 /*DisplayTabuleiro();
 ExecutarJogada();

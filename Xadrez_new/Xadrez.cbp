@@ -31,6 +31,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Jogo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Jogo.h" />
+		<Unit filename="Peca.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Peca.h" />
 		<Unit filename="Xadrez.c">
 			<Option compilerVar="CC" />
 		</Unit>

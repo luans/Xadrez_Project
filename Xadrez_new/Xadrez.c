@@ -68,21 +68,27 @@ Tabuleiro* CriarJogo() {
  *  Gera todos os objetos utilizados no jogo
  *
  **/
-void GerarObjetos( Tabuleiro* newgame, Peca* newpecas[32]) {
+void GerarObjetos( Tabuleiro* newgame, Peca* newpecas[]) {
     // Inicializando as pecas
     int i = 0;
     int flagcoordLINHA,flagcoordCOL =0;
 
     for ( i = 0; i < 16; i ++ ) {
+        newpecas[i] = (Peca*) malloc(sizeof(Peca));
         strcpy( newpecas[i]->NomePeca, nomeTodasPecas[i] );
-        /*strcpy( newpecas[i]->SimboloPeca, tipoPecasPreta[i] );
+        strcpy( newpecas[i]->SimboloPeca, tipoPecasPreta[i] );
         newpecas[i]->Lado = COR_PRETA;
-
-        strcpy( newpecas[i+16]->NomePeca, nomeTodasPecas[i] );
-        strcpy( newpecas[i+16]->SimboloPeca, tipoPecasBranca[i] );
-        newpecas[i+16]->Lado = COR_BRANCA;*/
     }
-/*
+
+    int auxcont = 0;
+    for ( i = 16; i < 32; i++ ) {
+        auxcont++;
+        newpecas[i] = (Peca*) malloc(sizeof(Peca));
+        strcpy( newpecas[i]->NomePeca, nomeTodasPecas[auxcont] );
+        strcpy( newpecas[i]->SimboloPeca, tipoPecasBranca[auxcont] );
+        newpecas[i]->Lado = COR_BRANCA;
+    }
+
     for ( flagcoordLINHA = 0; flagcoordLINHA < 8; flagcoordLINHA ++ ) {
         for ( flagcoordCOL = 0; flagcoordCOL < 8; flagcoordCOL ++ ) {
             if (flagcoordLINHA < 2) {
@@ -95,7 +101,7 @@ void GerarObjetos( Tabuleiro* newgame, Peca* newpecas[32]) {
                 newgame->JogoPecas[flagcoordLINHA][flagcoordCOL] = newpecas[flagcoordLINHA * 8 + flagcoordCOL];
             }
         }
-    }*/
+    }
 }
 
 void DisplayTabuleiro(Tabuleiro* newgame) {

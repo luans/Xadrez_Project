@@ -54,3 +54,31 @@
 	<conio.h>
 	"Xadrez.h"
 
+1370478809 source:c:\users\9142863821\desktop\xadrez_project-master\xadrez_new\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrez.h"
+
+1370479297 c:\users\9142863821\desktop\xadrez_project-master\xadrez_new\xadrez.h
+
+1370479636 source:c:\users\9142863821\desktop\xadrez_project-master\xadrez_new\xadrez.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"Xadrez.h"
+
+1370478810 source:c:\documents and settings\luans\meus documentos\downloads\xadrez_new\xadrez_new\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Xadrez.h"
+
+1370479298 c:\documents and settings\luans\meus documentos\downloads\xadrez_new\xadrez_new\xadrez.h
+
+1370517589 source:c:\documents and settings\luans\meus documentos\downloads\xadrez_new\xadrez_new\xadrez.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"Xadrez.h"
+
